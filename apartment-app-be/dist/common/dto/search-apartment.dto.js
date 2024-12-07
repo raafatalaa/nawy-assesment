@@ -9,24 +9,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PaginationDto = void 0;
+exports.SearchApartmentDto = void 0;
 const class_validator_1 = require("class-validator");
 const class_transformer_1 = require("class-transformer");
-class PaginationDto {
+class SearchApartmentDto {
 }
-exports.PaginationDto = PaginationDto;
+exports.SearchApartmentDto = SearchApartmentDto;
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], SearchApartmentDto.prototype, "apartmentName", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_transformer_1.Type)(() => Number),
-    (0, class_validator_1.IsInt)({ message: 'Page must be an integer' }),
-    (0, class_validator_1.Min)(1, { message: 'Page must be greater than or equal to 1' }),
+    (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
-], PaginationDto.prototype, "page", void 0);
+], SearchApartmentDto.prototype, "propertyNumber", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
-    (0, class_transformer_1.Type)(() => Number),
-    (0, class_validator_1.IsInt)({ message: 'Limit must be an integer' }),
-    (0, class_validator_1.Min)(1, { message: 'Limit must be greater than or equal to 1' }),
-    __metadata("design:type", Number)
-], PaginationDto.prototype, "limit", void 0);
-//# sourceMappingURL=pagination.dto.js.map
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], SearchApartmentDto.prototype, "projectName", void 0);
+//# sourceMappingURL=search-apartment.dto.js.map

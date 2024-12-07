@@ -15,32 +15,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ApartmentController = void 0;
 const common_1 = require("@nestjs/common");
 const apartment_service_1 = require("./apartment.service");
-const pagination_dto_1 = require("../common/dto/pagination.dto");
+const create_apartment_dto_1 = require("./dto/create-apartment.dto");
 let ApartmentController = class ApartmentController {
     constructor(apartmentService) {
         this.apartmentService = apartmentService;
     }
-    findAll(paginationDto, apartmentName, propertyNumber, projectName) {
-        console.log('Pagination DTO:', paginationDto);
-        const { page = 1, limit = 10 } = paginationDto;
+    findAll(query) {
+        const { page = 1, limit = 10, apartmentName, propertyNumber, projectName } = query;
         return this.apartmentService.findAll({ apartmentName, propertyNumber, projectName }, { page, limit });
     }
     async findOne(id) {
         return this.apartmentService.findOne(+id);
     }
-    async create(apartment) {
-        return this.apartmentService.create(apartment);
+    async create(createApartmentDto) {
+        return this.apartmentService.create(createApartmentDto);
     }
 };
 exports.ApartmentController = ApartmentController;
 __decorate([
     (0, common_1.Get)(),
     __param(0, (0, common_1.Query)()),
-    __param(1, (0, common_1.Query)('apartmentName')),
-    __param(2, (0, common_1.Query)('propertyNumber')),
-    __param(3, (0, common_1.Query)('projectName')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [pagination_dto_1.PaginationDto, String, Number, String]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], ApartmentController.prototype, "findAll", null);
 __decorate([
@@ -54,7 +50,7 @@ __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [create_apartment_dto_1.CreateApartmentDto]),
     __metadata("design:returntype", Promise)
 ], ApartmentController.prototype, "create", null);
 exports.ApartmentController = ApartmentController = __decorate([

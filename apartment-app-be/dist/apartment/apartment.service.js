@@ -21,8 +21,27 @@ let ApartmentService = class ApartmentService {
     constructor(apartmentRepository) {
         this.apartmentRepository = apartmentRepository;
     }
-    findAll() {
-        return this.apartmentRepository.find();
+    async findAll(filters, pagination) {
+        const { page, limit } = pagination;
+        const queryBuilder = this.apartmentRepository.createQueryBuilder('apartment');
+        if (filters.apartmentName) {
+            queryBuilder.andWhere('apartment.apartmentName ILIKE :apartmentName', {
+                apartmentName: `%${filters.apartmentName}%`,
+            });
+        }
+        if (filters.propertyNumber) {
+            queryBuilder.andWhere('apartment.propertyNumber = :propertyNumber', {
+                propertyNumber: filters.propertyNumber,
+            });
+        }
+        if (filters.projectName) {
+            queryBuilder.andWhere('apartment.projectName ILIKE :projectName', {
+                projectName: `%${filters.projectName}%`,
+            });
+        }
+        queryBuilder.skip((page - 1) * limit).take(limit);
+        const [data, total] = await queryBuilder.getManyAndCount();
+        return { data, total, page, limit };
     }
     async findOne(id) {
         const apartment = await this.apartmentRepository.findOne({ where: { id } });

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Apartment } from './entities/apartment.entity';
@@ -11,8 +11,42 @@ export class ApartmentService {
   ) {}
 
   // Get all apartments
-  findAll(): Promise<Apartment[]> {
-    return this.apartmentRepository.find();
+  async findAll(
+    filters: {
+      apartmentName?: string;
+      propertyNumber?: number;
+      projectName?: string;
+    },
+    pagination: { page: number; limit: number },
+  ): Promise<{ data: Apartment[]; total: number; page: number; limit: number }> {
+    const { page, limit } = pagination;
+    const queryBuilder = this.apartmentRepository.createQueryBuilder('apartment');
+
+    // Apply search filters
+    if (filters.apartmentName) {
+      queryBuilder.andWhere('apartment.apartmentName ILIKE :apartmentName', {
+        apartmentName: `%${filters.apartmentName}%`,
+      });
+    }
+
+    if (filters.propertyNumber) {
+      queryBuilder.andWhere('apartment.propertyNumber = :propertyNumber', {
+        propertyNumber: filters.propertyNumber,
+      });
+    }
+
+    if (filters.projectName) {
+      queryBuilder.andWhere('apartment.projectName ILIKE :projectName', {
+        projectName: `%${filters.projectName}%`,
+      });
+    }
+
+    queryBuilder.skip((page - 1) * limit).take(limit);
+
+    // Execute the query and get total count
+    const [data, total] = await queryBuilder.getManyAndCount();
+
+    return { data, total, page, limit };
   }
 
   // Get apartment by ID

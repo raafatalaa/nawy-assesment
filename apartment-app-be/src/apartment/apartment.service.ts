@@ -10,7 +10,7 @@ export class ApartmentService {
     private apartmentRepository: Repository<Apartment>,
   ) {}
 
-  // Get all apartments
+
   async findAll(
     filters: {
       apartmentName?: string;
@@ -22,7 +22,6 @@ export class ApartmentService {
     const { page, limit } = pagination;
     const queryBuilder = this.apartmentRepository.createQueryBuilder('apartment');
 
-    // Apply search filters
     if (filters.apartmentName) {
       queryBuilder.andWhere('apartment.apartmentName ILIKE :apartmentName', {
         apartmentName: `%${filters.apartmentName}%`,
@@ -43,13 +42,12 @@ export class ApartmentService {
 
     queryBuilder.skip((page - 1) * limit).take(limit);
 
-    // Execute the query and get total count
     const [data, total] = await queryBuilder.getManyAndCount();
 
     return { data, total, page, limit };
   }
 
-  // Get apartment by ID
+
   async findOne(id: number): Promise<Apartment> {
     const apartment = await this.apartmentRepository.findOne({ where: { id } });
     if (!apartment) {
@@ -58,7 +56,6 @@ export class ApartmentService {
     return apartment;
   }
 
-  // Add a new apartment
   create(apartment: Omit<Apartment, 'id'>): Promise<Apartment> {
     const newApartment = this.apartmentRepository.create(apartment);
     return this.apartmentRepository.save(newApartment);

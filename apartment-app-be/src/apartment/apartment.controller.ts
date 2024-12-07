@@ -42,9 +42,9 @@ export class ApartmentController {
     }
   })
   @ApiResponse({ status: 400, description: 'Bad request - Invalid parameters' })
-  findAll(@Query() query: PaginationDto & SearchApartmentDto) {
+  async findAll(@Query() query: PaginationDto & SearchApartmentDto) {
     const { page = 1, limit = 10, apartmentName, propertyNumber, projectName } = query;
-    return this.apartmentService.findAll(
+    return await this.apartmentService.findAll(
       { apartmentName, propertyNumber, projectName },
       { page, limit },
     );

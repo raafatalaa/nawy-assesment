@@ -2,6 +2,22 @@
 
 This repository contains a full-stack application for managing apartments, built with NestJS for the backend and Next.js for the frontend.
 
+## Task Overview
+
+The goal of this project was to create a comprehensive apartment management system that allows users to perform various operations related to apartments. The application consists of two main components:
+
+1. **Backend**: Developed using NestJS, it provides a RESTful API for managing apartments, including CRUD operations, filtering, and pagination.
+2. **Frontend**: Built with Next.js, it offers a user-friendly interface for interacting with the backend API, allowing users to view, create, and filter apartments.
+
+## Requirements
+
+The application was required to:
+- Implement a backend API with endpoints for managing apartments.
+- Provide data validation and error handling.
+- Create a frontend application that consumes the backend API.
+- Include Swagger documentation for the API.
+- Ensure that the application is easily deployable using Docker.
+
 ## Table of Contents
 - [Getting Started](#getting-started)
 - [Backend](#backend)
@@ -55,3 +71,44 @@ To access the frontend, open your browser and navigate to [http://localhost:3001
 
 The backend API documentation is available through Swagger. To access it:
 1. Open your browser and navigate to [http://localhost:3000/api](http://localhost:3000/api).
+2. You will see the Swagger UI, which provides an interactive interface to explore the API endpoints.
+
+## Running Tests
+
+To run the test cases for both the backend and frontend, follow these steps:
+
+### Backend Tests
+1. Navigate to the backend directory:
+   ```bash
+   cd apartment-app-be
+   ```
+
+2. Run the tests using Jest:
+   ```bash
+   npm test
+   ```
+
+3. To run tests in watch mode:
+   ```bash
+   npm test -- --watch
+   ```
+
+### Frontend Tests
+1. Navigate to the frontend directory:
+   ```bash
+   cd apartment-app-fe
+   ```
+
+2. Run the tests using Jest:
+   ```bash
+   npm test
+   ```
+
+3. To run tests in watch mode:
+   ```bash
+   npm test -- --watch
+   ```
+
+## Conclusion
+
+This application provides a complete solution for managing apartments with a user-friendly interface and a robust backend. Feel free to explore the code and contribute to the project!

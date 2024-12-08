@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Apartment, PaginatedResponse, SearchFilters, CreateApartmentDto } from '@/types/apartment';
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000',
 });
 
 export const getApartments = async (filters: SearchFilters) => {

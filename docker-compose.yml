@@ -1,0 +1,51 @@
+version: "3.9"
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: apartment_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Backend Service (NestJS)
+  backend:
+    image: node:18
+    container_name: nestjs-backend
+    working_dir: /app
+    command: sh -c "npm install && npm run start:dev"
+    volumes:
+      - ./apartment-app-be:/app
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: password
+      DATABASE_NAME: apartment_db
+      NODE_ENV: development
+    depends_on:
+      - postgres
+
+  # Frontend Service (Next.js)
+  frontend:
+    image: node:18
+    container_name: nextjs-frontend
+    working_dir: /app
+    command: sh -c "npm install && npm run dev"
+    volumes:
+      - ./apartment-app-fe:/app
+    ports:
+      - "3001:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:3000
+
+volumes:
+  postgres_data:

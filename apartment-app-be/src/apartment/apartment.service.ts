@@ -1,15 +1,10 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Apartment } from './entities/apartment.entity';
+import { ApartmentRepository } from './repositories/apartment.repository';
 
 @Injectable()
 export class ApartmentService {
-  constructor(
-    @InjectRepository(Apartment)
-    private apartmentRepository: Repository<Apartment>,
-  ) {}
-
+  constructor(private apartmentRepository: ApartmentRepository) {}
 
   async findAll(
     filters: {
@@ -18,38 +13,15 @@ export class ApartmentService {
       projectName?: string;
     },
     pagination: { page: number; limit: number },
-  ): Promise<{ data: Apartment[]; total: number; page: number; limit: number }> {
-    const { page, limit } = pagination;
-    const queryBuilder = this.apartmentRepository.createQueryBuilder('apartment');
-
-    if (filters.apartmentName) {
-      queryBuilder.andWhere('apartment.apartmentName ILIKE :apartmentName', {
-        apartmentName: `%${filters.apartmentName}%`,
-      });
-    }
-
-    if (filters.propertyNumber) {
-      queryBuilder.andWhere('apartment.propertyNumber = :propertyNumber', {
-        propertyNumber: filters.propertyNumber,
-      });
-    }
-
-    if (filters.projectName) {
-      queryBuilder.andWhere('apartment.projectName ILIKE :projectName', {
-        projectName: `%${filters.projectName}%`,
-      });
-    }
-
-    queryBuilder.skip((page - 1) * limit).take(limit);
-
-    const [data, total] = await queryBuilder.getManyAndCount();
-
-    return { data, total, page, limit };
+  ) {
+    return this.apartmentRepository.findAllWithFiltersAndPagination(
+      filters,
+      pagination,
+    );
   }
 
-
   async findOne(id: number): Promise<Apartment> {
-    const apartment = await this.apartmentRepository.findOne({ where: { id } });
+    const apartment = await this.apartmentRepository.findById(id);
     if (!apartment) {
       throw new NotFoundException(`Apartment with ID ${id} not found`);
     }
@@ -57,7 +29,6 @@ export class ApartmentService {
   }
 
   create(apartment: Omit<Apartment, 'id'>): Promise<Apartment> {
-    const newApartment = this.apartmentRepository.create(apartment);
-    return this.apartmentRepository.save(newApartment);
+    return this.apartmentRepository.create(apartment);
   }
 }

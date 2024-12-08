@@ -93,22 +93,6 @@ To run the test cases for both the backend and frontend, follow these steps:
    npm test -- --watch
    ```
 
-### Frontend Tests
-1. Navigate to the frontend directory:
-   ```bash
-   cd apartment-app-fe
-   ```
-
-2. Run the tests using Jest:
-   ```bash
-   npm test
-   ```
-
-3. To run tests in watch mode:
-   ```bash
-   npm test -- --watch
-   ```
-
 ## Conclusion
 
 This application provides a complete solution for managing apartments with a user-friendly interface and a robust backend. Feel free to explore the code and contribute to the project!

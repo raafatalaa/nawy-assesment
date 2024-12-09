@@ -9,6 +9,11 @@ The goal of this project was to create a comprehensive apartment management syst
 1. **Backend**: Developed using NestJS, it provides a RESTful API for managing apartments, including CRUD operations, filtering, and pagination.
 2. **Frontend**: Built with Next.js, it offers a user-friendly interface for interacting with the backend API, allowing users to view, create, and filter apartments.
 
+## Video Overview
+You can watch a video demonstration of the application here:
+[Watch Video](https://drive.google.com/file/d/143mBYhxpFFE6SUg3hX1ypXuoaLg9HNI-/view?usp=drive_link)
+
+
 ## Requirements
 
 The application was required to:
